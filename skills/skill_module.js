@@ -294,7 +294,9 @@ module.exports = function(controller) {
 						"city": "skype",
 						"min_price": 1,
 						"max_price": convo.vars.max_price
-  				}
+  				},
+  				method: 'POST',
+  				followAllRedirects: true
 				}, function(error, response, body) {
 					console.log(response.status);
 					console.log("response body", body);
