@@ -255,6 +255,9 @@ module.exports = function(controller) {
     // Before the confirmation thread starts, run this:
     controller.studio.beforeThread('helpme','confirmation', function(convo, next) {
 
+				console.log("convo", convo);
+				console.log("convo.vars", convo.vars);
+
         /// do something fun and useful
         // convo.setVar('name','value');
 
@@ -275,13 +278,13 @@ module.exports = function(controller) {
 								"prices": "ANY",
 								"zip_code": "",
 								"distance": "10",
-								"name": convo.vars.name,
+								"name": "paul",
 								"force_language": "en",
 								"force_currency": "USD",
-								"email": convo.vars.email,
+								"email": "fdafasdfadsas@fdsafadsfsd.com",
 								"phone_number": "",
-								"subject": convo.vars.type,
-								"body": convo.vars.body,
+								"subject": "spanish",
+								"body": "this idfasdfadsf fdsafasdf fsadfasdf safdsfdsafadsf fadsf asdfasfa",
 								"m_source": "referral",
 								"m_source_landing": "\/",
 								"m_source_details": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
@@ -298,14 +301,23 @@ module.exports = function(controller) {
 								"country_alias": "skype",
 								"city": "skype",
 								"min_price": 1,
-								"max_price": convo.vars.max_price
+								"max_price": parseInt('50')
 							};
 
 						console.log("request data", requestData);
 						console.log("myjar", myjar);
 
 						request.post({
-							headers: {'content-type' : 'application/json'},
+							headers: {
+								'content-type' : 'application/json',
+								'accept': 'application/json, text/javascript, */*; q=0.01',
+								'accept-encoding': 'gzip, deflate, br',
+								'accept-language': 'en-US,en;q=0.8',
+								'origin': 'https://preply.com',
+								'referrer': 'https://preply.com/',
+								'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
+								'x-requested-with': 'XMLHttpRequest'
+							},
 							url:     'http://preply.com/api/reverselead/',
 							form:    requestData,
 							method: 'POST',
