@@ -295,7 +295,9 @@ module.exports = function(controller) {
 						"min_price": 1,
 						"max_price": convo.getVar('max_price')
   				}
-				}, function(error, response, body){
+				}, function(error, response, body) {
+					console.log(response.status);
+					console.log("response body", body);
 					next();
 				});
 
