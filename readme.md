@@ -38,11 +38,14 @@ studio_token
 
 You need to import the Botkit script named 'helpme' into Botkit Studio. You can find the export in: `/scripts.json`
 
+#### Usage
+
+To use, add the Tutorator Bot (tutorator@sparkbot.io) to your Cisco Spark team. Invite the Tutorator Bot to a space and send the Bot a message like so: `@Tutorator lookup`. Or, open a private message with the Tutorator Bot and say `lookup`. The Tutorator Bot will then prompt you for the email address to look up. 
 
 #### Todos
 
-More input validation and error handling needed!
+- More input validation and error handling needed!
 
-# About Botkit 
+# About Tutorator 
 
 Tutorator is a project for the [Cisco Spark Industry Challenge](https://ciscospark.devpost.com/)
