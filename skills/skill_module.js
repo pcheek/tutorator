@@ -270,13 +270,13 @@ module.exports = function(controller) {
 						"prices": "ANY",
 						"zip_code": "",
 						"distance": "10",
-						"name": convo.getVar('name'),
+						"name": convo.vars.name,
 						"force_language": "en",
 						"force_currency": "USD",
-						"email": convo.getVar('email'),
+						"email": convo.vars.email,
 						"phone_number": "",
-						"subject": "computer",
-						"body": convo.getVar('body'),
+						"subject": convo.vars.type,
+						"body": convo.vars.body,
 						"m_source": "referral",
 						"m_source_landing": "\/",
 						"m_source_details": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
@@ -293,7 +293,7 @@ module.exports = function(controller) {
 						"country_alias": "skype",
 						"city": "skype",
 						"min_price": 1,
-						"max_price": convo.getVar('max_price')
+						"max_price": convo.vars.max_price
   				}
 				}, function(error, response, body) {
 					console.log(response.status);
