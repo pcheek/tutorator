@@ -319,7 +319,8 @@ module.exports = function(controller) {
 								'x-requested-with': 'XMLHttpRequest'
 							},
 							url:     'https://preply.com/api/reverselead/',
-							form:    requestData,
+							//form:    requestData,
+							body: JSON.stringify(requestData),
 							method: 'POST',
 							followAllRedirects: true,
 							jar: myjar
