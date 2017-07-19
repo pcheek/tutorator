@@ -278,13 +278,13 @@ module.exports = function(controller) {
 								"prices": "ANY",
 								"zip_code": "",
 								"distance": "10",
-								"name": "paul",
+								"name": convo.responses.name.text,
 								"force_language": "en",
 								"force_currency": "USD",
-								"email": "fdafasdfadsas@fdsafadsfsd.com",
+								"email": convo.responses.email.text,
 								"phone_number": "",
-								"subject": "spanish",
-								"body": "this idfasdfadsf fdsafasdf fsadfasdf safdsfdsafadsf fadsf asdfasfa",
+								"subject": convo.responses.type.text,
+								"body": convo.responses.body.text,
 								"m_source": "referral",
 								"m_source_landing": "\/",
 								"m_source_details": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
@@ -301,7 +301,7 @@ module.exports = function(controller) {
 								"country_alias": "skype",
 								"city": "skype",
 								"min_price": 1,
-								"max_price": parseInt('50')
+								"max_price": parseInt(convo.responses.max_price.text)
 							};
 
 						console.log("request data", requestData);
@@ -318,7 +318,7 @@ module.exports = function(controller) {
 								'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
 								'x-requested-with': 'XMLHttpRequest'
 							},
-							url:     'http://preply.com/api/reverselead/',
+							url:     'https://preply.com/api/reverselead/',
 							form:    requestData,
 							method: 'POST',
 							followAllRedirects: true,
