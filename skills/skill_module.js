@@ -255,85 +255,79 @@ module.exports = function(controller) {
     // Before the confirmation thread starts, run this:
     controller.studio.beforeThread('helpme','confirmation', function(convo, next) {
 
-				console.log("convo", convo);
-				console.log("convo.vars", convo.vars);
+			// Open the cookie jar for request series to Preply.com.
+			var myjar = request.jar();
 
-        /// do something fun and useful
-        // convo.setVar('name','value');
+			// Make initial request to Preply.com to establish session.
+			request.get({
+				url:     'https://preply.com/',
+				jar: myjar,
+				method: 'GET',
+				followAllRedirects: true
+			}, function(error, response, body) {
 
-        console.log('In the script *helpme*, about to start the thread *confirmation*');
-				var myjar = request.jar();
+				var requestData = {
+					"tutor_type": "skype",
+					"address": "",
+					"travel_districts": "",
+					"prices": "ANY",
+					"zip_code": "",
+					"distance": "10",
+					"name": convo.responses.name.text,
+					"force_language": "en",
+					"force_currency": "USD",
+					"email": convo.responses.email.text,
+					"phone_number": "",
+					"subject": convo.responses.type.text,
+					"body": convo.responses.body.text,
+					"m_source": "referral",
+					"m_source_landing": "\/",
+					"m_source_details": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
+					"landing_page": "https:\/\/preply.com\/",
+					"landing_page_last": "https:\/\/preply.com\/en\/form?utm_source=intercom&utm_medium=inapp&utm_content=content2&utm_campaign=en-visitor-a-85463107",
+					"source_page": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
+					"source_page_utmz": "",
+					"source_page_last": "",
+					"source_page_last_utmz": "techcrunch(referral)",
+					"visit_time": "2017-07-18T22:00:56.400Z",
+					"device_type": "desktop",
+					"client_id": "616522452.1500429657",
+					"user_city": "skype",
+					"country_alias": "skype",
+					"city": "skype",
+					"min_price": 1,
+					"max_price": parseInt(convo.responses.max_price.text)
+				};
 
-				request.get({
-					url:     'https://preply.com/',
-  				jar: myjar,
-  				method: 'GET',
-  				followAllRedirects: true
+				// Make request to Preply.com to create tutor request and create user account.
+				request.post({
+					headers: {
+						'content-type' : 'application/json',
+						'accept': 'application/json, text/javascript, */*; q=0.01',
+						'accept-encoding': 'gzip, deflate, br',
+						'accept-language': 'en-US,en;q=0.8',
+						'origin': 'https://preply.com',
+						'referrer': 'https://preply.com/',
+						'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
+						'x-requested-with': 'XMLHttpRequest'
+					},
+					url: 'https://preply.com/api/reverselead/',
+					body: JSON.stringify(requestData),
+					method: 'POST',
+					followAllRedirects: true,
+					jar: myjar
 				}, function(error, response, body) {
-
-						var requestData = {
-								"tutor_type": "skype",
-								"address": "",
-								"travel_districts": "",
-								"prices": "ANY",
-								"zip_code": "",
-								"distance": "10",
-								"name": convo.responses.name.text,
-								"force_language": "en",
-								"force_currency": "USD",
-								"email": convo.responses.email.text,
-								"phone_number": "",
-								"subject": convo.responses.type.text,
-								"body": convo.responses.body.text,
-								"m_source": "referral",
-								"m_source_landing": "\/",
-								"m_source_details": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
-								"landing_page": "https:\/\/preply.com\/",
-								"landing_page_last": "https:\/\/preply.com\/en\/form?utm_source=intercom&utm_medium=inapp&utm_content=content2&utm_campaign=en-visitor-a-85463107",
-								"source_page": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
-								"source_page_utmz": "",
-								"source_page_last": "",
-								"source_page_last_utmz": "techcrunch(referral)",
-								"visit_time": "2017-07-18T22:00:56.400Z",
-								"device_type": "desktop",
-								"client_id": "616522452.1500429657",
-								"user_city": "skype",
-								"country_alias": "skype",
-								"city": "skype",
-								"min_price": 1,
-								"max_price": parseInt(convo.responses.max_price.text)
-							};
-
-						console.log("request data", requestData);
-						console.log("myjar", myjar);
-
-						request.post({
-							headers: {
-								'content-type' : 'application/json',
-								'accept': 'application/json, text/javascript, */*; q=0.01',
-								'accept-encoding': 'gzip, deflate, br',
-								'accept-language': 'en-US,en;q=0.8',
-								'origin': 'https://preply.com',
-								'referrer': 'https://preply.com/',
-								'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
-								'x-requested-with': 'XMLHttpRequest'
-							},
-							url:     'https://preply.com/api/reverselead/',
-							//form:    requestData,
-							body: JSON.stringify(requestData),
-							method: 'POST',
-							followAllRedirects: true,
-							jar: myjar
-						}, function(error, response, body) {
-							console.log(response.status);
-							console.log("response body", body);
-							next();
-						});
-
+					// TODO: Handle Preply.com errors...
+					//				Possible Preply.com errors:
+					//				- User already has an open tutor request.
+					//				- Invalid type/subject.
+					//				- Body/description not long enough.
+					//				- etc.
+					next();
 				});
 
+			});
 
-        // always call next!
     });
 
 
