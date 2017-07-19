@@ -259,48 +259,64 @@ module.exports = function(controller) {
         // convo.setVar('name','value');
 
         console.log('In the script *helpme*, about to start the thread *confirmation*');
+				var myjar = request.jar();
 
-        request.post({
-					headers: {'content-type' : 'application/json'},
-					url:     'http://preply.com/api/reverselead/',
-  				form:    {
-  					"tutor_type": "skype",
-						"address": "",
-						"travel_districts": "",
-						"prices": "ANY",
-						"zip_code": "",
-						"distance": "10",
-						"name": convo.vars.name,
-						"force_language": "en",
-						"force_currency": "USD",
-						"email": convo.vars.email,
-						"phone_number": "",
-						"subject": convo.vars.type,
-						"body": convo.vars.body,
-						"m_source": "referral",
-						"m_source_landing": "\/",
-						"m_source_details": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
-						"landing_page": "https:\/\/preply.com\/",
-						"landing_page_last": "https:\/\/preply.com\/en\/form?utm_source=intercom&utm_medium=inapp&utm_content=content2&utm_campaign=en-visitor-a-85463107",
-						"source_page": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
-						"source_page_utmz": "",
-						"source_page_last": "",
-						"source_page_last_utmz": "techcrunch(referral)",
-						"visit_time": "2017-07-18T22:00:56.400Z",
-						"device_type": "desktop",
-						"client_id": "616522452.1500429657",
-						"user_city": "skype",
-						"country_alias": "skype",
-						"city": "skype",
-						"min_price": 1,
-						"max_price": convo.vars.max_price
-  				},
-  				method: 'POST',
+				request.get({
+					url:     'https://preply.com/',
+  				jar: myjar,
+  				method: 'GET',
   				followAllRedirects: true
 				}, function(error, response, body) {
-					console.log(response.status);
-					console.log("response body", body);
-					next();
+
+						var requestData = {
+								"tutor_type": "skype",
+								"address": "",
+								"travel_districts": "",
+								"prices": "ANY",
+								"zip_code": "",
+								"distance": "10",
+								"name": convo.vars.name,
+								"force_language": "en",
+								"force_currency": "USD",
+								"email": convo.vars.email,
+								"phone_number": "",
+								"subject": convo.vars.type,
+								"body": convo.vars.body,
+								"m_source": "referral",
+								"m_source_landing": "\/",
+								"m_source_details": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
+								"landing_page": "https:\/\/preply.com\/",
+								"landing_page_last": "https:\/\/preply.com\/en\/form?utm_source=intercom&utm_medium=inapp&utm_content=content2&utm_campaign=en-visitor-a-85463107",
+								"source_page": "https:\/\/techcrunch.com\/2016\/06\/07\/preply-pulls-in-1-3m-to-expand-its-tutoring-marketplace-in-europe\/",
+								"source_page_utmz": "",
+								"source_page_last": "",
+								"source_page_last_utmz": "techcrunch(referral)",
+								"visit_time": "2017-07-18T22:00:56.400Z",
+								"device_type": "desktop",
+								"client_id": "616522452.1500429657",
+								"user_city": "skype",
+								"country_alias": "skype",
+								"city": "skype",
+								"min_price": 1,
+								"max_price": convo.vars.max_price
+							};
+
+						console.log("request data", requestData);
+						console.log("myjar", myjar);
+
+						request.post({
+							headers: {'content-type' : 'application/json'},
+							url:     'http://preply.com/api/reverselead/',
+							form:    requestData,
+							method: 'POST',
+							followAllRedirects: true,
+							jar: myjar
+						}, function(error, response, body) {
+							console.log(response.status);
+							console.log("response body", body);
+							next();
+						});
+
 				});
 
 
